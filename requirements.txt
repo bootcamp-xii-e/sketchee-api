@@ -1,0 +1,9 @@
+tensorflow
+keras
+flask
+flask
+base64
+re
+opencv-python
+flask_cors
+json
