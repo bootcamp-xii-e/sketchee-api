@@ -4,15 +4,16 @@ import keras
 from keras import layers
 import tensorflow as tf
 import numpy as np
-import cv2
 import re
 import base64
 import json
 from init_model import load_model
+from scipy import misc
+from io import BytesIO
 keras.backend.clear_session()
 model = load_model()
 class_names =[]
-with open('model\\class_names.txt', 'r') as f:
+with open('model/class_names.txt', 'r') as f:
     class_names = f.readlines()
 
 
@@ -39,18 +40,27 @@ def disp_pic():
         # this method convert and save the base64 string to image
         # convert_and_save(img_data)
         # data = request.data
+        
+        
         content = img_data.split(';')[1]
         image_encoded = content.split(',')[1]
         body = base64.decodebytes(image_encoded.encode('utf-8'))
-        nparr = np.fromstring(body, np.uint8)
-        img = cv2.imdecode(nparr, 0)
-        img = cv2.resize(img,(28,28))
+        img_arr = misc.imread(BytesIO(body))
+        
+        # nparr = np.fromstring(body, np.uint8)
+        # print(img_arr.shape)
+        # # img = nparr.
+        # img = cv2.imdecode(nparr, 0)
+        # print(img.shape)
+        # img = cv2.resize(img,(28,28))
+        
+        img = img_arr[:,:,0]
 
         # make img contains only 0 and 255
         img = (img>75*(np.ones((img.shape))))*255
         img = np.array(img,dtype = np.int16)
 
-        cv2.imwrite("temp\\temp.jpeg",img)
+        # cv2.imwrite("temp\\temp.jpeg",img)
         img = img / 255.0
         img = np.around(img, 2)
         # print(img)
@@ -69,4 +79,4 @@ def disp_pic():
     return response
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",debug=False)
+    app.run(host="0.0.0.0",debug=True)

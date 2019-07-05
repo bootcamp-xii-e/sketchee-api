@@ -4,3 +4,4 @@ keras
 flask
 opencv-python
 flask_cors
+scipy
