@@ -2,7 +2,6 @@ gunicorn
 tensorflow
 keras
 flask
-opencv-python
 flask_cors
-scipy
+scipy==1.1.0
 pillow
