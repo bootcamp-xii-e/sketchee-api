@@ -1,7 +1,5 @@
 tensorflow
 keras
 flask
-re
 opencv-python
 flask_cors
-json
